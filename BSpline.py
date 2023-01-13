@@ -11,7 +11,6 @@ def b_spline(
         Perform a B-spline interpolation with knots as an input parameter
         x: array of x-coordinates of data points
         y: array of y-coordinates of data points
-        knots: array of knots (breakpoints) to be used in the spline
         degree: degree of the B-spline
     '''
     knots = np.arange(len(x)).astype(float)
