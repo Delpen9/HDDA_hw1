@@ -5,7 +5,7 @@ def smoothing_spline(
     x : np.ndarray,
     y : np.ndarray,
     smoothing_param : float
-):
+) -> Object:
     '''
     smoothing_spline():
         Perform a smoothing spline interpolation with lambda as an input parameter
