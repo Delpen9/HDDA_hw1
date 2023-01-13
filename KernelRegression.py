@@ -7,7 +7,7 @@ def kernel_regression(
     y : np.ndarray,
     kernel : str = 'rbf',
     optimal_lambda : float = None
-):
+) -> Object:
     """
     kernel_regression():
         Perform kernel regression using a Gaussian kernel with an optimal lambda input parameter
