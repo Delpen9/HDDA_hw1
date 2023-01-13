@@ -1,15 +1,20 @@
 import numpy as np
 from sklearn.kernel_ridge import KernelRidge
 from sklearn.model_selection import GridSearchCV
-from sklearn.datasets import make_regression
 
-def kernel_regression(x, y, kernel='rbf', optimal_lambda=None):
+def kernel_regression(
+    x : np.ndarray,
+    y : np.ndarray,
+    kernel : str = 'rbf',
+    optimal_lambda : float = None
+):
     """
-    Perform kernel regression using a Gaussian kernel with an optimal lambda input parameter
-    x: array of x-coordinates of data points
-    y: array of y-coordinates of data points
-    kernel: kernel to use in the regression (default: rbf)
-    optimal_lambda: optimal lambda to use in the regression (default: None)
+    kernel_regression():
+        Perform kernel regression using a Gaussian kernel with an optimal lambda input parameter
+        x: array of x-coordinates of data points
+        y: array of y-coordinates of data points
+        kernel: kernel to use in the regression (default: rbf)
+        optimal_lambda: optimal lambda to use in the regression (default: None)
     """
     kr = KernelRidge(kernel=kernel)
     if optimal_lambda is None:
@@ -21,15 +26,3 @@ def kernel_regression(x, y, kernel='rbf', optimal_lambda=None):
         kr.alpha = optimal_lambda
         kr.fit(x, y)
     return kr
-
-# Generating a dataset for demonstration
-x, y = make_regression(n_samples=100, n_features=1, noise=0.1)
-
-# Using the default optimal lambda
-kr = kernel_regression(x, y)
-print("Optimal lambda (alpha) = ", kr.alpha)
-
-# Using a specific lambda
-optimal_lambda = 0.1
-kr = kernel_regression(x, y, optimal_lambda=optimal_lambda)
-print("Optimal lambda (alpha) = ", kr.alpha)
