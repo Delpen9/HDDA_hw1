@@ -4,7 +4,6 @@ from scipy.interpolate import BSpline
 def b_spline(
     x : np.ndarray,
     y : np.ndarray,
-    knots : np.ndarray,
     degree : int
 ) -> Object:
     '''
@@ -15,6 +14,6 @@ def b_spline(
         knots: array of knots (breakpoints) to be used in the spline
         degree: degree of the B-spline
     '''
+    knots = np.arange(len(x)).astype(float)
     spline = BSpline(knots, y, degree)
     return spline
-    
