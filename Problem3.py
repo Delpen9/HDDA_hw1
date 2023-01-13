@@ -10,10 +10,12 @@ import os
 
 if __name__ == '__main__':
   working_directory = os.getcwd()
-  file_name = 'X1-1.txt'
+  file_name = 'X1-1.csv'
   file_path = os.path.join(working_directory, file_name)
   
   data = df.read_csv(file_path)
+  
+  
   
   
 
