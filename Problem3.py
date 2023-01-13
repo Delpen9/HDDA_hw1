@@ -16,8 +16,3 @@ if __name__ == '__main__':
   data = df.read_csv(file_path)
   X = data.iloc[:, :-1]
   y = data.iloc[:, -1]
-  
-  
-  
-  
-
