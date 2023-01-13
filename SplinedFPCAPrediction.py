@@ -10,7 +10,7 @@ def spline_fpca_prediction(
   degree : int,
   test_size : float,
   classifier : callable
-):
+) -> tuple[np.ndarray, np.ndarray]:
   '''
   spline_fpca_prediction():
   '''
