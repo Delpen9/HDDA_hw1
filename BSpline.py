@@ -4,7 +4,7 @@ from scipy.interpolate import BSpline
 def b_spline(
     x : np.ndarray,
     y : np.ndarray,
-    knots : int,
+    knots : np.ndarray,
     degree : int
 ) -> Object:
     '''
