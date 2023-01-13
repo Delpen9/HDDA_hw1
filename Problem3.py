@@ -14,6 +14,8 @@ if __name__ == '__main__':
   file_path = os.path.join(working_directory, file_name)
   
   data = df.read_csv(file_path)
+  X = data.loc[:, :-1]
+  y = data.loc[:, -1]
   
   
   
