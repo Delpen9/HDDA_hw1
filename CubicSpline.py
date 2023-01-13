@@ -5,7 +5,7 @@ def cubic_spline(
     x : np.ndarray,
     y : np.ndarray,
     knots : np.ndarray
-):
+) -> Object:
     '''
     cubic_spline():
         Perform a cubic spline interpolation with knots as an input parameter
