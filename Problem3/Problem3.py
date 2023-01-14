@@ -16,5 +16,8 @@ if __name__ == '__main__':
   file_path = os.path.join(working_directory, file_name)
   
   data = pd.read_csv(file_path)
-  X = data.iloc[:, :-1]
-  y = data.iloc[:, -1]
+  X = data.iloc[:, :-1].to_numpy().astype(float)
+  y = data.iloc[:, -1].to_numpy().astype(float)
+
+  b_spline = b_spline(X, y, 8, 3)
+  plot_mean_function(X, y, b_spline)
