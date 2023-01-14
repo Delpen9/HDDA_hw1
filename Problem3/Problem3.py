@@ -34,7 +34,8 @@ def cubic_spline_chart(
 
   plot_mean_function(X, y, cubic_spline_output, 'images', 'cubic_spline_mean_function.png')
 
-  return None
+  mse = compute_mse(X, y, cubic_spline_output)
+  return mse
 
 def b_spline_chart(
   data : pd.DataFrame
@@ -59,7 +60,8 @@ def b_spline_chart(
 
   plot_mean_function(X, y, b_spline_output, 'images', 'b_spline_mean_function.png')
 
-  return None
+  mse = compute_mse(X, y, b_spline_output)
+  return mse
 
 def smoothing_spline_chart(
   data : pd.DataFrame
@@ -84,7 +86,8 @@ def smoothing_spline_chart(
 
   plot_mean_function(X, y, smoothing_spline_output, 'images', 'smoothing_spline_mean_function.png')
 
-  return None
+  mse = compute_mse(X, y, smoothing_spline_output)
+  return mse
 
 def kernel_regression_spline_chart(
   data : pd.DataFrame
@@ -109,7 +112,8 @@ def kernel_regression_spline_chart(
 
   plot_mean_function(X, y, kernel_regression_spline_output, 'images', 'kernel_regression_spline_mean_function.png')
 
-  return None
+  mse = compute_mse(X, y, kernel_regression_spline_output)
+  return mse
 
 if __name__ == '__main__':
   working_directory = os.getcwd()
@@ -122,3 +126,15 @@ if __name__ == '__main__':
   b_spline_mse = b_spline_chart(data)
   smoothing_spline_mse = smoothing_spline_chart(data)
   kernel_regression_mse = kernel_regression_spline_chart(data)
+
+  spline_types = np.array(['cubic_spline', 'b_spline', 'smoothing_spline', 'kernel_regression']).astype(str).reshape(-1, 1)
+  spline_errors = np.array([
+    cubic_spline_mse,
+    b_spline_mse,
+    smoothing_spline_mse,
+    kernel_regression_mse
+  ]).astype(str).reshape(-1, 1)
+
+  spline_performance_comparison = pd.DataFrame(np.hstack((spline_types, spline_errors)), columns = ['Spline Type', 'Error'])
+  performance_path = os.path.join(working_directory, 'spline_performance_comparison.csv')
+  spline_performance_comparison.to_csv(performance_path, index = False)

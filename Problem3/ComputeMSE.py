@@ -1,9 +1,11 @@
 import numpy as np
+from sklearn.metrics import mean_squared_error
+from sklearn.kernel_ridge import KernelRidge
 
 def compute_mse(
     x : np.ndarray,
     y : np.ndarray,
-    spline : callable
+    spline : object
 ) -> float:
     """
     compute_mse():
@@ -12,6 +14,11 @@ def compute_mse(
         y: array of y-coordinates of data points
         spline: spline object
     """
-    y_pred = spline(x)
-    mse = np.mean((y - y_pred)**2)
-    return mse
+    if isinstance(spline, KernelRidge):
+        y_pred = spline.predict(x.reshape(-1, 1)).flatten()
+    else:
+        y_pred = spline(x)
+
+    error = mean_squared_error(y, y_pred)
+
+    return error
