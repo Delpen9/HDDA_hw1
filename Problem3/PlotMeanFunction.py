@@ -32,4 +32,6 @@ def plot_mean_function(
     os.makedirs(subfolder)
 
   plt.savefig(fr'{subfolder}/{filename}')
+  plt.clf()
+
 

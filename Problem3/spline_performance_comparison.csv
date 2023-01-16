@@ -1,0 +1,5 @@
+Spline Type,Error
+cubic_spline,0.061758944305198946
+b_spline,0.061758944305198946
+smoothing_spline,0.07843378843272297
+kernel_regression,0.11361449451802126
