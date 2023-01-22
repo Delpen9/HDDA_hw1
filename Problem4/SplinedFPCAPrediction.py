@@ -12,7 +12,7 @@ from sklearn.model_selection import train_test_split, RandomizedSearchCV
 from xgboost import XGBClassifier
 
 # Performance evaluation
-from sklearn.metrics import roc_auc_score, roc_curve, confusion_matrix
+from sklearn.metrics import roc_auc_score, roc_curve, confusion_matrix, accuracy_score, f1_score
 import matplotlib.pyplot as plt
 import seaborn as sns
 
@@ -124,6 +124,42 @@ if __name__ == '__main__':
   plt.ylabel('Actual')
 
   image_path = os.path.join(working_directory, 'images/confusion_matrix.png')
+
+  plt.savefig(image_path, dpi = 300)
+  plt.clf()
+
+  # Calculate the accuracy at different threshold values
+  accuracy = []
+  for threshold in np.arange(0, 0.95, 0.01):
+      y_pred = [1 if probability > threshold else 0 for probability in y_prob]
+      accuracy_at_threshold = accuracy_score(y_test, y_pred)
+      accuracy.append(accuracy_at_threshold)
+
+  plt.plot(np.arange(0, 0.95, 0.01), accuracy)
+  
+  plt.title('Accuracy of Model at Multiple Thresholds')
+  plt.xlabel('Threshold')
+  plt.ylabel('Accuracy')
+
+  image_path = os.path.join(working_directory, 'images/accuracy_at_multiple_thresholds.png')
+
+  plt.savefig(image_path, dpi = 300)
+  plt.clf()
+
+  # Calculate the f1-score at different threshold values
+  f1 = []
+  for threshold in np.arange(0, 0.95, 0.01):
+      y_pred = [1 if probability > threshold else 0 for probability in y_prob]
+      f1_at_threshold = f1_score(y_test, y_pred)
+      f1.append(f1_at_threshold)
+
+  plt.plot(np.arange(0, 0.95, 0.01), f1)
+  
+  plt.title('F1-Score of Model at Multiple Thresholds')
+  plt.xlabel('Threshold')
+  plt.ylabel('F1-Score')
+
+  image_path = os.path.join(working_directory, 'images/f1_at_multiple_thresholds.png')
 
   plt.savefig(image_path, dpi = 300)
   plt.clf()
