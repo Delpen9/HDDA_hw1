@@ -22,3 +22,4 @@ RUN pip install six==1.16.0
 RUN pip install threadpoolctl==3.1.0
 RUN pip install wheel==0.38.4
 RUN pip install xgboost==1.7.3
+RUN pip install seaborn==0.12.2
