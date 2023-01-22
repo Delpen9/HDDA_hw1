@@ -12,8 +12,9 @@ from sklearn.model_selection import train_test_split, RandomizedSearchCV
 from xgboost import XGBClassifier
 
 # Performance evaluation
-from sklearn.metrics import roc_auc_score, roc_curve
+from sklearn.metrics import roc_auc_score, roc_curve, confusion_matrix
 import matplotlib.pyplot as plt
+import seaborn as sns
 
 def transform_data(
   csv_file : str,
@@ -108,4 +109,21 @@ if __name__ == '__main__':
   image_path = os.path.join(working_directory, 'images/roc_auc_curve.png')
 
   plt.savefig(image_path)
+  plt.clf()
+
+  y_pred = best_model.predict(X_test)
+
+  confusion_matrix_values = confusion_matrix(y_test, y_pred)
+
+  # Plot the confusion matrix using matplotlib
+  sns.heatmap(confusion_matrix_values, annot = True, fmt = 'd', cmap = 'Blues')
+
+  # Add labels to the plot
+  plt.title('Confusion Matrix')
+  plt.xlabel('Predicted')
+  plt.ylabel('Actual')
+
+  image_path = os.path.join(working_directory, 'images/confusion_matrix.png')
+
+  plt.savefig(image_path, dpi = 300)
   plt.clf()
