@@ -4,8 +4,8 @@ import pandas as pd
 import os
 
 # Data Pre-processing
+from scipy.interpolate import splrep, BSpline
 from sklearn.decomposition import PCA
-from BSplineCoefficients import get_all_b_spline_coefficients
 
 # Modeling
 from sklearn.model_selection import train_test_split, RandomizedSearchCV
@@ -15,6 +15,38 @@ from xgboost import XGBClassifier
 from sklearn.metrics import roc_auc_score, roc_curve, confusion_matrix, accuracy_score, f1_score
 import matplotlib.pyplot as plt
 import seaborn as sns
+
+def get_all_b_spline_coefficients(
+    x : np.ndarray,
+    y : np.ndarray,
+    knot_count : int
+) -> np.ndarray:
+    '''
+    b_spline():
+        Perform a B-spline interpolation with knots as an input parameter and then output the coefficients of each BSpline
+        x: array of x-coordinates of data points
+        y: array of y-coordinates of data points
+        knot_count: the number of knots expected for the spline object
+    '''
+    assert x.shape == y.shape
+    assert x.shape[0] > knot_count + 6
+
+    knot_distance = (np.amax(x) - np.amin(x)) / (knot_count - 1)
+    knots = np.arange(np.amin(x), np.amax(x) + knot_distance, knot_distance)
+
+    coefficients = np.zeros(shape = (knot_count + 6))
+    for i in range(x.shape[0]):
+        tck = splrep(x[i, :], y[i, :], t = knots[1: -1])
+        spline = BSpline(*tck)
+        if i == 0:
+            coefficients = spline.c
+        else:
+            coefficients = np.vstack((
+                coefficients,
+                spline.c
+            ))
+
+    return coefficients
 
 def transform_data(
   csv_file : str,
@@ -106,7 +138,7 @@ if __name__ == '__main__':
   plt.title('ROC Curve')
   plt.legend()
 
-  image_path = os.path.join(working_directory, 'images/roc_auc_curve.png')
+  image_path = os.path.join(working_directory, 'roc_auc_curve.png')
 
   plt.savefig(image_path)
   plt.clf()
@@ -124,7 +156,7 @@ if __name__ == '__main__':
   plt.xlabel('Threshold')
   plt.ylabel('Accuracy')
 
-  image_path = os.path.join(working_directory, 'images/accuracy_at_multiple_thresholds.png')
+  image_path = os.path.join(working_directory, 'accuracy_at_multiple_thresholds.png')
 
   plt.savefig(image_path, dpi = 300)
   plt.clf()
@@ -142,7 +174,7 @@ if __name__ == '__main__':
   plt.xlabel('Threshold')
   plt.ylabel('F1-Score')
 
-  image_path = os.path.join(working_directory, 'images/f1_at_multiple_thresholds.png')
+  image_path = os.path.join(working_directory, 'f1_at_multiple_thresholds.png')
 
   plt.savefig(image_path, dpi = 300)
   plt.clf()
@@ -161,7 +193,7 @@ if __name__ == '__main__':
   plt.xlabel('Predicted')
   plt.ylabel('Actual')
 
-  image_path = os.path.join(working_directory, 'images/confusion_matrix.png')
+  image_path = os.path.join(working_directory, 'confusion_matrix.png')
 
   plt.savefig(image_path, dpi = 300)
   plt.clf()
